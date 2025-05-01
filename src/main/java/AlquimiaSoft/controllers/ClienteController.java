@@ -40,6 +40,12 @@ public class ClienteController {
         return ResponseEntity.ok(resultado);
     }
 
+    @GetMapping("/listar")
+    public ResponseEntity<List<ClienteDto>> listar() {
+        List<ClienteDto> clientes = clienteService.listarClientes();
+        return ResponseEntity.ok(clientes);
+    }
+
     @PostMapping("/crear")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Cliente> crearCliente(@RequestBody ClienteDto dto) {

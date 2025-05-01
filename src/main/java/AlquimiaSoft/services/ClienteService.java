@@ -16,6 +16,11 @@ public class ClienteService {
     @Autowired
     ClienteRepository clienteRepository;
 
+    public List<ClienteDto> listarClientes() {
+        return clienteRepository.findAll()
+                .stream().map(ClienteDto::new).toList();
+    }
+
     // Métodos restantes en ClienteService
     public List<ClienteDto> buscarClientes(String query) {
         return clienteRepository

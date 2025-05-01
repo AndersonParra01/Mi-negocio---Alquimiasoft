@@ -23,20 +23,16 @@ mi-negocio-clientes/
 ├── README.md
 └── src
     ├── main
-    │   ├── java/AlquimiaSoft/minegocio
-    │   │   ├── configuracion/
-    │   │   ├── controlador/
-    │   │   ├── dto/
-    │   │   ├── entidad/
-    │   │   ├── excepcion/
-    │   │   ├── repositorio/
-    │   │   └── servicio/
+    │   ├── java/AlquimiaSoft/
+    │   │   ├── controllers/
+    │   │   ├── dtos/
+    │   │   ├── exception/
+    │   │   ├── models/
+    │   │   ├── repositories/
+    │   │   └── services/
     │   └── resources
-    │       ├── application.yml
-    │       ├── application-dev.yml
-    │       ├── application-prod.yml
-    │       └── db/changelog/db.changelog-master.xml
-    └── test/java/…
+    │       └── application.properties
+    └── test/java/AlquimiaSoft
 ```
 
 _Estilo Clean/Hexagonal:_ `controlador → servicio → repositorio → BD`, DTOs y mapeo con MapStruct, validaciones Bean Validation y especificaciones para búsquedas.
@@ -47,7 +43,7 @@ _Estilo Clean/Hexagonal:_ `controlador → servicio → repositorio → BD`, DTO
 
 ### 2.1 Propiedades
 
-Crea **`src/main/resources/application-prod.yml`** con las credenciales de tu instancia **Render**.
+Crea **`src/main/resources/application.properties`** con las credenciales de tu instancia **Render**.
 
 > **¡No subas contraseñas reales a Git!** Ponlas como variables de entorno o usa un `.env` en tu servidor CI/CD.
 
@@ -84,12 +80,8 @@ En **Render Dashboard → Environment → Environment Variables** define:
 Ejecuta la app con:
 
 ```bash
-java -jar target/mi-negocio-clientes.jar --spring.profiles.active=prod
+mvn spring-boot:run
 ```
-
-o configura la variable `SPRING_PROFILES_ACTIVE=prod` en Render.
-
----
 
 ## 3. Puesta en marcha local
 
@@ -104,14 +96,14 @@ o configura la variable `SPRING_PROFILES_ACTIVE=prod` en Render.
 ```bash
 # 1. Clonar
 git clone https://github.com/<tu-usuario>/mi-negocio-clientes.git
-cd mi-negocio-clientes
+cd mi-negocio-AlquimiaSoft
 
 # 2. Arrancar PostgreSQL local (opcional)
 docker compose up -d db
 
 # 3. Compilar y lanzar
-mvn clean verify
-mvn spring-boot:run --spring.profiles.active=dev
+mvn clean install -U
+mvn spring-boot:run
 ```
 
 ---
@@ -165,32 +157,7 @@ El changelog principal está en `src/main/resources/db/changelog/db.changelog-ma
 
 ---
 
-## 7. Docker Compose (opcional)
-
-```yaml
-version: "3.9"
-services:
-  app:
-    build: .
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
-  db:
-    image: postgres:14
-    environment:
-      - POSTGRES_DB=mi_negocio
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - "5432:5432"
-```
-
----
-
-## 8. Buenas prácticas implementadas
+## 7. Buenas prácticas implementadas
 
 - Principios **SOLID**
 - Capas limpias y DTOs
