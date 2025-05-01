@@ -65,7 +65,7 @@ public class ClienteController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/agregar-direccion/{id}/")
+    @PostMapping("/agregar-direcciones/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public DireccionDto agregarDireccion(
             @PathVariable Long id, @Validated @RequestBody DireccionDto dto) {

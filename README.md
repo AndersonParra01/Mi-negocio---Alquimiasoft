@@ -110,19 +110,20 @@ mvn spring-boot:run
 
 ## 4. API REST
 
-| Método   | Endpoint                               | Descripción                                                          |
-| -------- | -------------------------------------- | -------------------------------------------------------------------- |
-| `GET`    | `/api/clientes/buscar?termino={texto}` | Listar clientes que coincidan por nombre o identificación (paginado) |
-| `POST`   | `/api/clientes`                        | Crear cliente **+** dirección matriz                                 |
-| `PUT`    | `/api/clientes/{id}`                   | Editar datos de cliente                                              |
-| `DELETE` | `/api/clientes/{id}`                   | Eliminar cliente                                                     |
-| `POST`   | `/api/clientes/{id}/direcciones`       | Agregar dirección (sucursal)                                         |
-| `GET`    | `/api/clientes/{id}/direcciones`       | Listar todas las direcciones de un cliente                           |
+| Método   | Endpoint                                 | Descripción                                                          |
+| -------- | ---------------------------------------- | -------------------------------------------------------------------- |
+| `GET`    | `/api/clientes/listar`                   | Lista todos los clientes                                             |
+| `GET`    | `/api/clientes/buscar?termino={texto}`   | Listar clientes que coincidan por nombre o identificación (paginado) |
+| `POST`   | `/api/clientes/crear`                    | Crear cliente **+** dirección matriz                                 |
+| `PUT`    | `/api/clientes/actualizar/{id}`          | Editar datos de cliente                                              |
+| `DELETE` | `/api/clientes/eliminar/{id}`            | Eliminar cliente                                                     |
+| `POST`   | `/api/clientes/agregar-direcciones/{id}` | Agregar dirección (sucursal)                                         |
+| `GET`    | `/api/clientes/direcciones/{id}`         | Listar todas las direcciones de un cliente                           |
 
 ### 4.1 Ejemplos `curl`
 
 ```bash
-curl -X POST http://localhost:8080/api/clientes      -H "Content-Type: application/json"      -d '{
+curl -X POST http://localhost:8080/api/clientes/crear      -H "Content-Type: application/json"      -d '{
            "cliente":{
              "tipoIdentificacion":"RUC",
              "numeroIdentificacion":"0999999999001",
