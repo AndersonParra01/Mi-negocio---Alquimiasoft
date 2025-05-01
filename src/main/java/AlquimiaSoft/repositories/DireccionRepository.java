@@ -8,4 +8,5 @@ import AlquimiaSoft.models.Direccion;
 
 public interface DireccionRepository extends JpaRepository<Direccion, Long> {
     List<Direccion> findByClienteId(Long clienteId);
+
 }

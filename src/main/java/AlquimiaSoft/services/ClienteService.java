@@ -1,21 +1,28 @@
 package AlquimiaSoft.services;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import AlquimiaSoft.dtos.ClienteDto;
 import AlquimiaSoft.dtos.DireccionDto;
+import AlquimiaSoft.exception.ExcepcionNegocio;
 import AlquimiaSoft.models.Cliente;
 import AlquimiaSoft.models.Direccion;
 import AlquimiaSoft.repositories.ClienteRepository;
+import AlquimiaSoft.repositories.DireccionRepository;
 
 @Service
 public class ClienteService {
 
     @Autowired
     ClienteRepository clienteRepository;
+
+    @Autowired
+    DireccionRepository direccionRepository;
 
     public List<ClienteDto> listarClientes() {
         return clienteRepository.findAll()
@@ -81,7 +88,22 @@ public class ClienteService {
     }
 
     public void eliminar(Long id) {
+        boolean existe = clienteRepository.existsById(id);
+        if (!existe) {
+            throw new ExcepcionNegocio("El cliente con ID " + id + " no existe");
+        }
         clienteRepository.deleteById(id);
+    }
+
+    public List<DireccionDto> obtenerDireccionesPorCliente(Long clienteId) {
+        if (!clienteRepository.existsById(clienteId)) {
+            throw new NoSuchElementException("Cliente no encontrado con ID: " + clienteId);
+        }
+
+        List<Direccion> direcciones = direccionRepository.findByClienteId(clienteId);
+        return direcciones.stream()
+                .map(DireccionDto::new)
+                .collect(Collectors.toList());
     }
 
 }

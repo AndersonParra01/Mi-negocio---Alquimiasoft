@@ -19,6 +19,8 @@ Permite **crear, buscar, editar y eliminar** clientes, así como registrar **mú
 
 ```
 mi-negocio-clientes/
+├── postman
+    ├── MiNegocio-Postman-Collection.json
 ├── pom.xml
 ├── README.md
 └── src
