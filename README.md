@@ -127,21 +127,21 @@ mvn spring-boot:run
 ### 4.1 Ejemplos `curl`
 
 ```bash
-curl -X POST http://localhost:8080/api/clientes/crear      -H "Content-Type: application/json"      -d '{
-           "cliente":{
-             "tipoIdentificacion":"RUC",
-             "numeroIdentificacion":"0999999999001",
-             "nombreCompleto":"Movistar",
-             "correo":"info@movistar.ec",
-             "celular":"0987654321"
-           },
-           "matriz":{
-             "provincia":"Pichincha",
-             "ciudad":"Quito",
-             "calleDetalle":"Av. Maestro",
-             "matriz":true
-           }
-         }'
+curl --location 'http://localhost:8081/api/clientes/crear' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "tipoIdentificacion": "C\u00e9dula",
+  "numeroIdentificacion": "1234567890",
+  "nombres": "Juan P\u00e9rez",
+  "correo": "juan@mail.com",
+  "celular": "0999999999",
+  "direccionMatriz": {
+    "provincia": "Pichincha",
+    "ciudad": "Quito",
+    "direccion": "Av. Siempre Viva 123",
+    "esMatriz": true
+  }
+}'
 ```
 
 ---
