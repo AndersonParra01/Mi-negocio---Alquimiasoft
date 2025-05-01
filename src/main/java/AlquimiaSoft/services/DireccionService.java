@@ -19,9 +19,6 @@ public class DireccionService {
     @Autowired
     ClienteRepository clienteRepository;
 
-    @Autowired
-    DireccionService direccionService;
-
     public DireccionDto agregarDireccion(Long clienteId, DireccionDto dto) {
         Cliente cliente = clienteRepository.findById(clienteId)
                 .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado"));
