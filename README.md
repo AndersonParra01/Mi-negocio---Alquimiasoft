@@ -23,7 +23,7 @@ mi-negocio-clientes/
 ├── README.md
 └── src
     ├── main
-    │   ├── java/ec/telconet/minegocio
+    │   ├── java/AlquimiaSoft/minegocio
     │   │   ├── configuracion/
     │   │   ├── controlador/
     │   │   ├── dto/
