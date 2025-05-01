@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import AlquimiaSoft.dtos.ClienteDto;
 import AlquimiaSoft.dtos.DireccionDto;
+import AlquimiaSoft.exception.ExcepcionNegocio;
 import AlquimiaSoft.models.Cliente;
 import AlquimiaSoft.services.ClienteService;
 import AlquimiaSoft.services.DireccionService;
@@ -34,10 +35,11 @@ public class ClienteController {
     private DireccionService direccionService;
 
     @GetMapping("/buscar")
-    public ResponseEntity<List<ClienteDto>> buscar(
-            @RequestParam String query) {
-        List<ClienteDto> resultado = clienteService.buscarClientes(query);
-        return ResponseEntity.ok(resultado);
+    public ResponseEntity<List<ClienteDto>> buscar(@RequestParam(required = false) String query) {
+        if (query == null || query.isBlank()) {
+            throw new ExcepcionNegocio("Debe enviar el parámetro 'query' para realizar la búsqueda");
+        }
+        return ResponseEntity.ok(clienteService.buscarClientes(query));
     }
 
     @GetMapping("/listar")

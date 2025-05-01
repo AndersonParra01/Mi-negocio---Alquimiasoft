@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import AlquimiaSoft.dtos.ClienteDto;
+import AlquimiaSoft.dtos.DireccionDto;
 import AlquimiaSoft.models.Cliente;
 import AlquimiaSoft.models.Direccion;
 import AlquimiaSoft.repositories.ClienteRepository;
@@ -29,15 +30,38 @@ public class ClienteService {
     }
 
     public Cliente crearCliente(ClienteDto clienteDto) {
+
+        // Validación de duplicados
         if (clienteRepository.existsByNumeroIdentificacion(clienteDto.getNumeroIdentificacion())) {
             throw new IllegalArgumentException("El cliente ya existe con el número de identificación proporcionado.");
         }
+
+        // Crear entidad Cliente desde el DTO
         Cliente cliente = new Cliente();
+        cliente.setTipoIdentificacion(clienteDto.getTipoIdentificacion());
+        cliente.setNumeroIdentificacion(clienteDto.getNumeroIdentificacion());
+        cliente.setNombres(clienteDto.getNombres());
+        cliente.setCorreo(clienteDto.getCorreo());
+        cliente.setCelular(clienteDto.getCelular());
+
+        // Validar que el DTO tenga dirección matriz
+        DireccionDto direccionDto = clienteDto.getDireccionMatriz();
+        if (direccionDto == null) {
+            throw new IllegalArgumentException("Debe proporcionar una dirección matriz.");
+        }
+
+        // Crear entidad Dirección
         Direccion direccion = new Direccion();
-        direccion.setMatriz(true);
+        direccion.setProvincia(direccionDto.getProvincia());
+        direccion.setCiudad(direccionDto.getCiudad());
+        direccion.setDireccion(direccionDto.getDireccion());
+        direccion.setMatriz(true); // matriz obligatoria
         direccion.setCliente(cliente);
-        // agregar dirección
+
+        // Asignar dirección al cliente
         cliente.getDirecciones().add(direccion);
+
+        // Guardar y retornar
         return clienteRepository.save(cliente);
     }
 
