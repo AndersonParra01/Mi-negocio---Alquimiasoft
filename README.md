@@ -49,24 +49,22 @@ Crea **`src/main/resources/application.properties`** con las credenciales de tu 
 
 > **¡No subas contraseñas reales a Git!** Ponlas como variables de entorno o usa un `.env` en tu servidor CI/CD.
 
-```yaml
-spring:
-  application:
-    name: MiNegocio
-  datasource:
-    url: ${DB_URL:jdbc:postgresql://dpg-d07nttk9c44c73a5uodg-a.oregon-postgres.render.com:5432/alquimiasoft}
-    username: ${DB_USER:anderson}
-    password: ${DB_PASS}
-    hikari:
-      maximum-pool-size: 6
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
-  liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.xml
+```.properties
+server.port=8081
+spring.application.name=Mi Negocio
+spring.datasource.url=jdbc:postgresql://dpg-d07nttk9c44c73a5uodg-a.oregon-postgres.render.com:5432/alquimiasoft
+spring.datasource.username=anderson
+spring.datasource.password=gbZrKQrJgrwoM1dHKqw8BUrtwQlS0fUW
+spring.jpa.hibernate.ddl-auto=none
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+# --- Configuración de Liquibase ---
+spring.liquibase.enabled=true
+spring.liquibase.change-log=classpath:db/changelog/db.changelog-master.xml
+ logging.level.liquibase=INFO
+logging.level.org.springframework.boot.autoconfigure.liquibase=DEBUG
+
 ```
 
 En **Render Dashboard → Environment → Environment Variables** define:
