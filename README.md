@@ -197,9 +197,3 @@ services:
 - Validaciones con **Bean Validation**
 - Manejador global de errores
 - TDD con JUnit + Mockito
-
----
-
-## 9. Licencia
-
-MIT.
