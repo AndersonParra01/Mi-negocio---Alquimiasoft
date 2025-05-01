@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import AlquimiaSoft.dtos.DireccionDto;
+import AlquimiaSoft.exception.ExcepcionNegocio;
 import AlquimiaSoft.models.Cliente;
 import AlquimiaSoft.models.Direccion;
 import AlquimiaSoft.repositories.ClienteRepository;
@@ -22,6 +23,13 @@ public class DireccionService {
     public DireccionDto agregarDireccion(Long clienteId, DireccionDto dto) {
         Cliente cliente = clienteRepository.findById(clienteId)
                 .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado"));
+
+        if (Boolean.TRUE.equals(dto.isEsMatriz())) {
+            boolean existeMatriz = cliente.getDirecciones().stream().anyMatch(direccion -> direccion.isMatriz());
+            if (existeMatriz) {
+                throw new ExcepcionNegocio("El cliente ya tiene una dirección matriz");
+            }
+        }
         Direccion direccion = new Direccion();
         direccion.setProvincia(dto.getProvincia());
         direccion.setCiudad(dto.getCiudad());

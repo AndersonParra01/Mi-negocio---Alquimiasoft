@@ -12,10 +12,11 @@ import AlquimiaSoft.services.DireccionService;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,6 +35,9 @@ public class ClienteController {
     @Autowired
     private DireccionService direccionService;
 
+    /**
+     * Buscar clientes por nombre o número de identificación
+     */
     @GetMapping("/buscar")
     public ResponseEntity<List<ClienteDto>> buscar(@RequestParam(required = false) String query) {
         if (query == null || query.isBlank()) {
@@ -42,40 +46,58 @@ public class ClienteController {
         return ResponseEntity.ok(clienteService.buscarClientes(query));
     }
 
+    /**
+     * Listar todos los clientes registrados
+     */
     @GetMapping("/listar")
     public ResponseEntity<List<ClienteDto>> listar() {
         List<ClienteDto> clientes = clienteService.listarClientes();
         return ResponseEntity.ok(clientes);
     }
 
+    /**
+     * Crear un nuevo cliente con dirección matriz
+     */
     @PostMapping("/crear")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Cliente> crearCliente(@RequestBody ClienteDto dto) {
+    public ResponseEntity<Cliente> crearCliente(@Valid @RequestBody ClienteDto dto) {
         Cliente cliente = clienteService.crearCliente(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(cliente);
     }
 
+    /**
+     * Actualizar datos de un cliente existente
+     */
     @PutMapping("/actualizar/{id}")
-    public ClienteDto editar(@PathVariable Long id, @RequestBody ClienteDto dto) {
-        return clienteService.editarCliente(id, dto);
+    public ResponseEntity<ClienteDto> editar(@PathVariable Long id, @Valid @RequestBody ClienteDto dto) {
+        ClienteDto actualizado = clienteService.editarCliente(id, dto);
+        return ResponseEntity.ok(actualizado);
     }
 
+    /**
+     * Eliminar cliente por ID
+     */
     @DeleteMapping("/eliminar/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         clienteService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Agregar una dirección adicional a un cliente
+     */
     @PostMapping("/agregar-direcciones/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public DireccionDto agregarDireccion(
-            @PathVariable Long id, @Validated @RequestBody DireccionDto dto) {
-        return direccionService.agregarDireccion(id, dto);
+    public ResponseEntity<DireccionDto> agregarDireccion(@PathVariable Long id, @Valid @RequestBody DireccionDto dto) {
+        DireccionDto direccion = direccionService.agregarDireccion(id, dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(direccion);
     }
 
+    /**
+     * Listar todas las direcciones (incluyendo matriz) de un cliente
+     */
     @GetMapping("/direcciones/{id}")
-    public List<DireccionDto> listarDirecciones(@PathVariable Long id) {
-        return direccionService.obtenerDirecciones(id);
+    public ResponseEntity<List<DireccionDto>> listarDirecciones(@PathVariable Long id) {
+        List<DireccionDto> direcciones = direccionService.obtenerDirecciones(id);
+        return ResponseEntity.ok(direcciones);
     }
 }
