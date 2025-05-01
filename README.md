@@ -134,14 +134,14 @@ curl -X POST http://localhost:8080/api/clientes      -H "Content-Type: applicati
            "cliente":{
              "tipoIdentificacion":"RUC",
              "numeroIdentificacion":"0999999999001",
-             "nombreCompleto":"Telconet S.A.",
-             "correo":"info@telconet.ec",
+             "nombreCompleto":"Movistar",
+             "correo":"info@movistar.ec",
              "celular":"0987654321"
            },
            "matriz":{
              "provincia":"Pichincha",
              "ciudad":"Quito",
-             "calleDetalle":"Av. 6 de Diciembre y Eloy Alfaro",
+             "calleDetalle":"Av. Maestro",
              "matriz":true
            }
          }'
